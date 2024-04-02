@@ -13,6 +13,10 @@ export default defineConfig({
 		})
 	],
 	server: {
-		port: 8000
+		port: 8000,
+        fs: {
+            allow: ['static']
+        }
+
 	}
 });
