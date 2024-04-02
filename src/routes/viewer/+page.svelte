@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
-    import Settings from './Settings.svelte';
+	import Settings from './Settings.svelte';
 	let showBox = false;
 	let autoRotate: boolean = false;
 	let enableDamping: boolean = true;
@@ -33,12 +33,12 @@
 </div>
 
 <Settings
-  bind:enableDamping
-  bind:autoRotate
-  bind:rotateSpeed
-  bind:zoomToCursor
-  bind:zoomSpeed
-  bind:minPolarAngle
-  bind:maxPolarAngle
-  bind:enableZoom
+	bind:enableDamping
+	bind:autoRotate
+	bind:rotateSpeed
+	bind:zoomToCursor
+	bind:zoomSpeed
+	bind:minPolarAngle
+	bind:maxPolarAngle
+	bind:enableZoom
 />
