@@ -3,6 +3,10 @@
 	import * as THREE from 'three';
 	let position: [number, number, number] = [0, 0, 0];
 	let scale: [number, number, number] = [1, 1, 1];
+	export let url: string = '';
+	export let visible = true;
+
+	$: console.log('url', url);
 
 	function onLoad(
 		payload: GLTF & {
@@ -29,11 +33,6 @@
 	$: console.log(scale);
 </script>
 
-<GLTF
-	castShadow
-	receiveShadow
-	url={'https://girder.hub.yt/api/v1/file/660c2f336f90214666a84b8e/download'}
-	on:load={onLoad}
-	{scale}
-	{position}
-/>
+{#if url}
+	<GLTF castShadow receiveShadow {url} on:load={onLoad} {scale} {position} {visible}/>
+{/if}

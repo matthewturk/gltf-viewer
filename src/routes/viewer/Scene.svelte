@@ -2,12 +2,16 @@
 	import { T, useTask } from '@threlte/core';
 	import { interactivity, Gizmo, OrbitControls } from '@threlte/extras';
 	import ModelView from './ModelView.svelte';
+	import { onMount } from 'svelte';
+	import { modelList } from '$lib/store';
+
 	let rotation = 0;
 	export let showBox = false;
 
 	useTask((delta) => {
 		rotation += delta;
 	});
+
 	interactivity();
 	export let autoRotate: boolean;
 	export let enableDamping: boolean;
@@ -44,4 +48,6 @@
 	</T.Mesh>
 {/if}
 
-<ModelView />
+{#each $modelList as model}
+		<ModelView bind:url={model.url} bind:visible={model.visible}/>
+{/each}

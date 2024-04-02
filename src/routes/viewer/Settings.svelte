@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Checkbox, Pane, ThemeUtils, Slider } from 'svelte-tweakpane-ui';
+	import { Color, Folder, Checkbox, Pane, ThemeUtils, Slider, Separator, AutoValue } from 'svelte-tweakpane-ui';
+	import { modelList } from '$lib/store';
 
 	export let autoRotate: boolean;
 	export let enableDamping: boolean;
@@ -9,9 +10,20 @@
 	export let minPolarAngle: number;
 	export let maxPolarAngle: number;
 	export let enableZoom: boolean;
+let color = '#ffffff';
+
 </script>
 
-<Pane theme={ThemeUtils.presets.light} position="fixed" title="OrbitControls">
+<Pane theme={ThemeUtils.presets.standard} position="draggable" title="OrbitControls">
+	{#each $modelList as model}
+		<Folder bind:title={model.name}>
+			<AutoValue bind:value={model.visible} label="Visible" />
+			<AutoValue bind:value={model.name} label="Name" />
+			<AutoValue bind:value={model.url} label="URL" />
+			<AutoValue bind:value={model.color} label="Color" />
+		</Folder>
+	{/each}
+	<Separator />
 	<Checkbox bind:value={autoRotate} label="autoRotate" />
 	<Checkbox bind:value={enableDamping} label="enableDamping" />
 	<Checkbox bind:value={enableZoom} label="enableZoom" />

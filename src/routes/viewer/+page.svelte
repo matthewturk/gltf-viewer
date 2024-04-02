@@ -11,10 +11,14 @@
 	let minPolarAngle: number = 0;
 	let maxPolarAngle: number = Math.PI;
 	let enableZoom: boolean = true;
+	let newUrl: string = "";
+	let modelUrl: string = 'https://girder.hub.yt/api/v1/file/660c2f336f90214666a84b8e/download';
 </script>
 
-<div class="w-full h-16">
-	<input type="checkbox" bind:checked={showBox} class="m-2" />
+<div class="w-1/5 h-16">
+	<input type="checkbox" bind:checked={showBox} class="m-2 checkbox" />
+	<input type="text" bind:value={newUrl} class="m-2 input" />
+	<button type="button" on:click={() => modelUrl = newUrl} class="m-2 btn variant-filled">Load</button>
 </div>
 <div class="w-full h-full min-h-[512px]">
 	<Canvas>
