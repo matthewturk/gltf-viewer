@@ -41,7 +41,9 @@
   "type": "module",
   "dependencies": {
     "@floating-ui/dom": "1.6.3",
+    "@threlte/core": "^7.2.1",
+    "@threlte/extras": "^8.11.2",
     "highlight.js": "11.9.0",
-    "threlte": "^3.13.1"
+    "svelte-tweakpane-ui": "^1.2.3"
   }
 }
