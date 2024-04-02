@@ -26,9 +26,8 @@
 		modelList.update((current) => {
 			current.push({
 				url: URL.createObjectURL(e.target.files[0]),
-				name: `Model ${$modelList.length + 1}`,
+				name: e.target.files[0].name,
 				visible: true,
-				//name: e.target.files[0].name,
 				color: '#000000',
 				position: [0, 0, 0],
 				scale: [0, 0, 0]
