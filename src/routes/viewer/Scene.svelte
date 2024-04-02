@@ -49,5 +49,5 @@
 {/if}
 
 {#each $modelList as model}
-		<ModelView bind:url={model.url} bind:visible={model.visible}/>
+	<ModelView bind:url={model.url} bind:visible={model.visible} bind:color={model.color}/>
 {/each}

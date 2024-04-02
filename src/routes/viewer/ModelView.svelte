@@ -5,6 +5,7 @@
 	let scale: [number, number, number] = [1, 1, 1];
 	export let url: string = '';
 	export let visible = true;
+	export let color = "#ffffff";
 
 	$: console.log('url', url);
 
@@ -31,8 +32,24 @@
 
 	$: console.log(position);
 	$: console.log(scale);
+	let selected = false;
+
 </script>
 
 {#if url}
-	<GLTF castShadow receiveShadow {url} on:load={onLoad} {scale} {position} {visible}/>
+	<GLTF
+		castShadow
+		receiveShadow
+		{url}
+		on:load={onLoad}
+		{scale}
+		{position}
+		{visible}
+		interactivity
+		on:click={(e) => {
+			console.log(e.object.material.color);
+			selected = !selected;
+			e.object.material.color.set(selected ? color : '#ff0000');
+		}}
+	/>
 {/if}
