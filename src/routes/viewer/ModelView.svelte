@@ -3,6 +3,7 @@
 	import * as THREE from 'three';
 	let position: [number, number, number] = [0, 0, 0];
 	let scale: [number, number, number] = [1, 1, 1];
+    export let bbox: THREE.Box3 = null;
 	export let url: string = '';
 	export let visible = true;
 
@@ -14,7 +15,12 @@
 			nodes: Record<string, THREE.Object3D>;
 		}
 	) {
-		let bbox = new THREE.Box3().setFromObject(payload.nodes['mesh_0']);
+		let thisbbox = new THREE.Box3().setFromObject(payload.nodes['mesh_0']);
+        if (bbox === null) {
+            bbox = thisbbox.clone();
+        } else {
+            bbox.union(thisbbox);
+        }
 		console.log(bbox);
 		const unitaryScale = Math.max(
 			bbox.max.x - bbox.min.x,
