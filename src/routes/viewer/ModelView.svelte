@@ -6,8 +6,20 @@
     export let bbox: THREE.Box3 = null;
 	export let url: string = '';
 	export let visible = true;
+	export let color = '#ffffff';
 
-	$: console.log('url', url);
+	let selected: boolean = false;
+	let model: THREE.Object3D | undefined = undefined;
+	let mesh: THREE.Mesh | undefined = undefined;
+	let material: THREE.MeshStandardMaterial | undefined = undefined;
+
+	$: if (mesh?.material instanceof THREE.MeshStandardMaterial) {
+		material = mesh.material;
+	}
+
+	$: if (material) {
+		material.color.set(selected ? '#ff0000' : color);
+	}
 
 	function onLoad(
 		payload: GLTF & {
@@ -15,7 +27,16 @@
 			nodes: Record<string, THREE.Object3D>;
 		}
 	) {
-		let thisbbox = new THREE.Box3().setFromObject(payload.nodes['mesh_0']);
+		if (payload.nodes['mesh_0'] == null) {
+			console.error('No mesh found in gltf');
+			return;
+		}
+		model = payload.nodes['mesh_0'];
+		if (payload.nodes['mesh_0'].type == 'Mesh') {
+			console.log('Model', model);
+			mesh = model as THREE.Mesh;
+		}
+		let thisbbox = new THREE.Box3().setFromObject(model);
         if (bbox === null) {
             bbox = thisbbox.clone();
         } else {
@@ -34,11 +55,20 @@
 		];
 		scale = [1.0 / unitaryScale, 1.0 / unitaryScale, 1.0 / unitaryScale];
 	}
-
-	$: console.log(position);
-	$: console.log(scale);
 </script>
 
 {#if url}
-	<GLTF castShadow receiveShadow {url} on:load={onLoad} {scale} {position} {visible}/>
+	<GLTF
+		castShadow
+		receiveShadow
+		{url}
+		on:load={onLoad}
+		{scale}
+		{position}
+		{visible}
+		interactivity
+		on:click={(e) => {
+			selected = !selected;
+		}}
+	/>
 {/if}
