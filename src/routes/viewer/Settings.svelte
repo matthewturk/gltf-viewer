@@ -20,7 +20,6 @@
 	export let minPolarAngle: number;
 	export let maxPolarAngle: number;
 	export let enableZoom: boolean;
-	let color = '#ffffff';
 
 	async function fileChange(e) {
 		modelList.update((current) => {
@@ -28,7 +27,7 @@
 				url: URL.createObjectURL(e.target.files[0]),
 				name: e.target.files[0].name,
 				visible: true,
-				color: '#000000',
+				color: '#ffffff',
 				position: [0, 0, 0],
 				scale: [0, 0, 0]
 			});

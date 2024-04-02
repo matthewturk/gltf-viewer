@@ -5,9 +5,20 @@
 	let scale: [number, number, number] = [1, 1, 1];
 	export let url: string = '';
 	export let visible = true;
-	export let color = "#ffffff";
+	export let color = '#ffffff';
 
-	$: console.log('url', url);
+	let selected: boolean = false;
+	let model: THREE.Object3D | undefined = undefined;
+	let mesh: THREE.Mesh | undefined = undefined;
+	let material: THREE.MeshStandardMaterial | undefined = undefined;
+
+	$: if (mesh?.material instanceof THREE.MeshStandardMaterial) {
+		material = mesh.material;
+	}
+
+	$: if (material) {
+		material.color.set(selected ? '#ff0000' : color);
+	}
 
 	function onLoad(
 		payload: GLTF & {
@@ -15,7 +26,16 @@
 			nodes: Record<string, THREE.Object3D>;
 		}
 	) {
-		let bbox = new THREE.Box3().setFromObject(payload.nodes['mesh_0']);
+		if (payload.nodes['mesh_0'] == null) {
+			console.error('No mesh found in gltf');
+			return;
+		}
+		model = payload.nodes['mesh_0'];
+		if (payload.nodes['mesh_0'].type == 'Mesh') {
+			console.log('Model', model);
+			mesh = model as THREE.Mesh;
+		}
+		let bbox = new THREE.Box3().setFromObject(model);
 		console.log(bbox);
 		const unitaryScale = Math.max(
 			bbox.max.x - bbox.min.x,
@@ -29,11 +49,6 @@
 		];
 		scale = [1.0 / unitaryScale, 1.0 / unitaryScale, 1.0 / unitaryScale];
 	}
-
-	$: console.log(position);
-	$: console.log(scale);
-	let selected = false;
-
 </script>
 
 {#if url}
@@ -47,9 +62,7 @@
 		{visible}
 		interactivity
 		on:click={(e) => {
-			console.log(e.object.material.color);
 			selected = !selected;
-			e.object.material.color.set(selected ? color : '#ff0000');
 		}}
 	/>
 {/if}
