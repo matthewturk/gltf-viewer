@@ -1,6 +1,16 @@
 <script lang="ts">
-	import { Color, Folder, Checkbox, Pane, ThemeUtils, Slider, Separator, AutoValue } from 'svelte-tweakpane-ui';
+	import {
+		Folder,
+		Checkbox,
+		Pane,
+		ThemeUtils,
+		Slider,
+		Separator,
+		AutoValue,
+		Element
+	} from 'svelte-tweakpane-ui';
 	import { modelList } from '$lib/store';
+	import { FileButton } from '@skeletonlabs/skeleton';
 
 	export let autoRotate: boolean;
 	export let enableDamping: boolean;
@@ -10,8 +20,20 @@
 	export let minPolarAngle: number;
 	export let maxPolarAngle: number;
 	export let enableZoom: boolean;
-let color = '#ffffff';
+	let color = '#ffffff';
 
+	async function fileChange(e) {
+		$modelList.push({
+			url: URL.createObjectURL(e.target.files[0]),
+			name: `Model ${$modelList.length + 1}`,
+			visible: true,
+			//name: e.target.files[0].name,
+			color: '#000000',
+			position: [0, 0, 0],
+			scale: [0, 0, 0]
+		});
+		console.log($modelList);
+	}
 </script>
 
 <Pane theme={ThemeUtils.presets.standard} position="draggable" title="OrbitControls">
@@ -23,6 +45,9 @@ let color = '#ffffff';
 			<AutoValue bind:value={model.color} label="Color" />
 		</Folder>
 	{/each}
+	<Element>
+		<FileButton name="model" label="Add Model" on:change={fileChange} /></Element
+	>
 	<Separator />
 	<Checkbox bind:value={autoRotate} label="autoRotate" />
 	<Checkbox bind:value={enableDamping} label="enableDamping" />
