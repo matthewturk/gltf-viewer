@@ -22,7 +22,7 @@ $: console.log(scale);
 <GLTF
   castShadow
   receiveShadow
-  url={'poisson.0616.glb'}
+  url={'https://girder.hub.yt/api/v1/file/660c2f336f90214666a84b8e/download'}
   on:load={onLoad}
   {scale}
   {position}
